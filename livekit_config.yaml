@@ -1,0 +1,37 @@
+# LiveKit 服务器的基本端口
+port: 7880
+
+# RTC (WebRTC) 相关配置
+rtc:
+  # 由于所有流量都通过Cloudflare隧道，我们不需要直接暴露这些端口，但服务本身需要它们
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000
+
+keys:
+  # 这里是API密钥和密码的键值对。
+  # 您可以自定义这些值，但请确保它们足够安全。
+  # 第一个值是 API Key，第二个值是 API Secret。
+  devkey: secret
+
+# TURN 服务配置 (对于公网访问至关重要)
+turn:
+  enabled: true
+  # --------------------- 【请修改这里】 ---------------------
+  # 将 turn.your-domain.com 替换为你想用于TURN服务的真实子域名
+  domain: turn.server.sparkagent.tech
+  # ---------------------------------------------------------
+  
+  # 我们将使用TURN/TLS功能，它将TURN流量封装在TLS中，使其能通过Cloudflare Tunnel
+  # 这个端口是本地端口，外部看不到
+  tls_port: 5349
+  
+  # --------------------- 【请修改这里】 ---------------------
+  # 您需要为上面的域名生成一个SSL证书。最简单的方法是使用Cloudflare源服务器证书。
+  # 1. 登录Cloudflare -> 选择你的域名 -> 左侧菜单 "SSL/TLS" -> "源服务器"
+  # 2. 点击 "创建证书"，主机名填入你的TURN域名 (例如 turn.your-domain.com)
+  # 3. 将生成的 "源证书" 内容保存为 turn.crt 文件，"私钥" 内容保存为 turn.key 文件
+  # 4. 在下面填入这两个文件的绝对路径
+  cert_file: /Users/ypc/Desktop/livekit_agents/turn.crt
+  key_file: /Users/ypc/Desktop/livekit_agents/turn.key
+  # ---------------------------------------------------------
