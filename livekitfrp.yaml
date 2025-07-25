@@ -1,0 +1,19 @@
+# LiveKit 服务器的基本端口
+port: 7880
+log_level: info
+# RTC (WebRTC) 相关配置
+rtc:
+  # 由于所有流量都通过Cloudflare隧道，我们不需要直接暴露这些端口，但服务本身需要它们
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000
+
+  use_external_ip: false
+  node_ip: "47.117.144.223"
+
+keys:
+  # 这里是API密钥和密码的键值对。
+  # 您可以自定义这些值，但请确保它们足够安全。
+  # 第一个值是 API Key，第二个值是 API Secret。
+  devkey: secret
+
